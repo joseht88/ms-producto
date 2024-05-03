@@ -1,5 +1,6 @@
 package upeu.ms.app.controller;
 
+import java.text.MessageFormat;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
@@ -16,12 +17,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import upeu.ms.app.entity.Producto;
 import upeu.ms.app.service.IProductoService;
 
 @RestController
+@RequestMapping("/api/producto")
 public class ProductoController {
 
 	@Autowired
@@ -56,13 +59,24 @@ public class ProductoController {
 	}
 	
 	@GetMapping("/{id}")
-	public Producto buscarById(@PathVariable(required = true) Long id){
-		return service.findById(id).get();
+	public ResponseEntity<Object> buscarById(@PathVariable(required = true) Long id){
+		try {
+			var producto = service.findById(id);
+			return ResponseEntity.status(HttpStatus.OK).body(producto.get());
+		} catch (Exception e) {
+			 return ResponseEntity.internalServerError().body(
+	                    MessageFormat.format("Exception while fetching book with id: {0}", id));
+		}
 	}
 	
 	@PostMapping
-	public ResponseEntity<Producto> registrar(@RequestBody Producto ob){
-		return ResponseEntity.status(HttpStatus.CREATED).body(service.registrar(ob));
+	public ResponseEntity<Object> registrar(@RequestBody Producto ob){
+		try {
+			var created = service.registrar(ob);
+			return ResponseEntity.status(HttpStatus.CREATED).body(created);
+		} catch (Exception e) {
+			return ResponseEntity.internalServerError().body("Exception while saving books");
+		}
 	}
 	
 	@PutMapping("/{id}")

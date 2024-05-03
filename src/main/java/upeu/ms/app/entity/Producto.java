@@ -1,23 +1,22 @@
 package upeu.ms.app.entity;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.persistence.Transient;
-
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
+import lombok.Builder;
 import lombok.Data;
 
 @Data
 @Entity
 @Table(name = "mae_producto")
+@Builder
 public class Producto implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
@@ -28,8 +27,7 @@ public class Producto implements Serializable {
 	private String nombre;
 	private Double precio;
 	@Column(name = "create_at")
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date createAt;
+	private LocalDateTime createAt;
 	
 	@Column(name = "estado")
 	private Boolean estado;

@@ -52,7 +52,7 @@ class IProductoServiceTest {
 	 * para evitar la repetición en cada método de prueba.
 	 */
 	@BeforeEach
-	public void setup() {
+	void setup() {
 		producto = Producto.builder()
 				.nombre("Zapatillas")
 				.precio(2.0)
@@ -72,7 +72,7 @@ class IProductoServiceTest {
 	
 	@DisplayName("Service - Registrar y retornar producto")
 	@Test
-	public void service_Saved_Return_Producto() {
+	void service_Saved_Return_Producto() {
 		//1. preparacion
 		when(this.repoMock.save(any())).thenReturn(saveProducto);
 		Producto saveProducto = null;
@@ -89,7 +89,7 @@ class IProductoServiceTest {
 	
 	@DisplayName("Service - Registrar y retornar Exception")
 	@Test
-	public void service_Save_HandleException() {
+	void service_Save_HandleException() {
 		when(this.repoMock.save(any())).thenThrow(RuntimeException.class);
 		Producto saveProducto = null;
 		try {
@@ -102,7 +102,7 @@ class IProductoServiceTest {
 	
 	@DisplayName("Service - Buscar y retornar todos los productos")
 	@Test
-	public void service_FindAll_ReturnsAllRecords() {
+	void service_FindAll_ReturnsAllRecords() {
 		when(this.repoMock.findAll()).thenReturn(productoList);
 		List<Producto> list = this.serviceMock.findAll();
 		assertThat(list.size()).isGreaterThan(1);
@@ -110,7 +110,7 @@ class IProductoServiceTest {
 	
 	@DisplayName("Service - Buscar y retornar por Id un producto")
 	@Test
-	public void service_FindById_ReturnObjectId() {
+	void service_FindById_ReturnObjectId() {
 		when(this.repoMock.findById(anyLong())).thenReturn(Optional.of(saveProducto));
 		Optional<Producto> productoWithId = null;
 		try {
@@ -123,7 +123,7 @@ class IProductoServiceTest {
 	
 	@DisplayName("Service - Buscar por Id y retornar un objeto vacio")
 	@Test
-	public void service_FindById_ReturnsNoRecord() {
+	void service_FindById_ReturnsNoRecord() {
 		when(this.repoMock.findById(anyLong())).thenReturn(Optional.empty());
 		Optional<Producto> productoWithId = null;
 		try {
@@ -136,7 +136,7 @@ class IProductoServiceTest {
 	
 	@DisplayName("Service - Buscar y retornar por Id una Excepcion")
 	@Test
-	public void service_FindById_HandleException() {
+	void service_FindById_HandleException() {
 		when(this.repoMock.findById(anyLong())).thenThrow(RuntimeException.class);
 		Optional<Producto> productoWithId = null;
 		try {

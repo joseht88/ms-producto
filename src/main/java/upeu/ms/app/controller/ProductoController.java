@@ -43,8 +43,8 @@ public class ProductoController {
 	@GetMapping("/all")
 	public List<Producto> listar() {
 		return service.findAll().stream().map(producto -> {
-			producto.setPort(Integer.parseInt(env.getProperty("local.server.port")));
-			//producto.setPort(port);
+			//producto.setPort(Integer.parseInt(env.getProperty("local.server.port")));
+			producto.setPort(port);
 			return producto; 
 		}).collect(Collectors.toList());
 	}
@@ -75,7 +75,7 @@ public class ProductoController {
 			var created = service.registrar(ob);
 			return ResponseEntity.status(HttpStatus.CREATED).body(created);
 		} catch (Exception e) {
-			return ResponseEntity.internalServerError().body("Exception while saving books");
+			return ResponseEntity.internalServerError().body("Exception while saving Products");
 		}
 	}
 	

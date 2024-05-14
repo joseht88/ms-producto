@@ -8,10 +8,15 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
+import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.containsInAnyOrder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -56,13 +61,14 @@ class ProductoControllerTest {
 	private ProductoServiceImpl service;
 	private Producto producto;
 	private Producto saveProducto;
+	private List<Producto> list;
 	/*
 	 * Inicializa los datos de prueba antes de cada caso de prueba. 
 	 * Crea objetos Producto que representan un bien/producto antes y después de ser guardados, 
 	 * simulando datos que normalmente serían manejados por la aplicación.
 	 */
 	@BeforeEach
-	public void setup() {
+	void setup() {
 		producto = Producto.builder()
 				.nombre("Zapatillas")
 				.precio(2.0)
@@ -125,5 +131,21 @@ class ProductoControllerTest {
         when(this.service.findById(anyLong())).thenThrow(RuntimeException.class);
         this.mockMvc.perform(get("/api/producto/1"))
         .andExpect(status().isInternalServerError());
+    }
+	
+	@DisplayName("Controller - Buscar todos los elementos")
+    @Test
+    public void findAll_ReturnsSuccess() throws Exception {
+		this.list = Arrays.asList(saveProducto);
+        when(this.service.findAll()).thenReturn(this.list);
+        this.mockMvc.perform(get("/api/producto/all"))
+        	.andExpect(status().isOk())
+        	.andExpect(content().contentType(MediaType.APPLICATION_JSON))
+        	.andDo(print())
+        	.andExpect(jsonPath("$", hasSize(1)))
+        //.andExpect(jsonPath("$[0].nombre", Matchers.equalTo("Zapatillas")))
+        //.andExpect(jsonPath("$[1].nombre", Matchers.equalTo("Dramático")));
+        // Verifica los datos esperados en la respuesta
+        	.andExpect(jsonPath("$[*].nombre").value(containsInAnyOrder("Zapatillas")));
     }
 }

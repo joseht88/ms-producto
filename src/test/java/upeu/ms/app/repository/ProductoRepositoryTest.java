@@ -28,7 +28,7 @@ class ProductoRepositoryTest {
 
 	@DisplayName("UT01 - Registrar un producto")
 	@Test
-	public void repo_Save_ReturnSavebProducto() {
+	void repo_Save_ReturnSavebProducto() {
 		Producto producto = Producto.builder()
 				.nombre("Adidas")
 				.precio(2.0)
@@ -43,7 +43,7 @@ class ProductoRepositoryTest {
 	
 	@DisplayName("UT02 - Retornar mas de un objeto")
 	@Test
-	public void repo_Fetch_ReturnMoreThanOneProducto() {
+	void repo_Fetch_ReturnMoreThanOneProducto() {
 		Producto producto1 = Producto.builder()
 				.nombre("Adidas")
 				.precio(2.0)
@@ -69,7 +69,7 @@ class ProductoRepositoryTest {
 	
 	@DisplayName("UT03 - Buscar por Id, retorna el objeto")
 	@Test
-	public void repo_FindById_ReturnSpecificProducto() {
+	void repo_FindById_ReturnSpecificProducto() {
 		Producto producto = Producto.builder()
 				.nombre("Adidas")
 				.precio(2.0)
@@ -80,11 +80,12 @@ class ProductoRepositoryTest {
 		Producto saveProducto = repo.save(producto);
 		Producto specificProducto = repo.findById(saveProducto.getId()).get();
 		assertNotNull(specificProducto);
+		assertEquals(specificProducto.getId(), saveProducto.getId());
 	}
 	
 	@DisplayName("UT04 - Eliminar producto")
 	@Test
-	public void repo_Delete_ReturnProductoIsEmpty() {
+	void repo_Delete_ReturnProductoIsEmpty() {
 		Producto producto = Producto.builder()
 				.nombre("Adidas")
 				.precio(2.0)
@@ -96,5 +97,32 @@ class ProductoRepositoryTest {
 		Optional<Producto> returnProducto = repo.findById(saveProducto.getId());
 		
 		assertTrue(returnProducto.isEmpty());
+	}
+	
+	@DisplayName("UT05 - Listar objetos activos")
+	@Test
+	void repo_findAll_ReturnProductoActive() {
+		Producto producto1 = Producto.builder()
+				.nombre("Adidas")
+				.precio(2.0)
+				.createAt(LocalDateTime.now())
+				.estado(true)
+				.build();
+
+		Producto producto2 = Producto.builder()
+				.nombre("Skechers")
+				.precio(2.5)
+				.createAt(LocalDateTime.now())
+				.estado(false)
+				.build();
+
+		List<Producto> productos = List.of(producto1, producto2);
+		repo.saveAll(productos);
+
+		List<Producto> fetchedProductoList = repo.findByEstadoTrue();
+		
+		assertTrue(fetchedProductoList.size()==1);
+		assertEquals(fetchedProductoList.size(), 1);
+		assertEquals(fetchedProductoList.get(0).getNombre(), "Adidas");
 	}
 }

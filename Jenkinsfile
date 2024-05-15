@@ -1,7 +1,7 @@
 pipeline {
 	agent any
 	tools {
-	    mvn '3.9.6'
+	    maven 'MAVEN'
 	}
 	stages {
 	    stage('Clonar el proyecto') {

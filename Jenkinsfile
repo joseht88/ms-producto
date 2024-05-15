@@ -34,13 +34,11 @@ pipeline {
 	        throw e 
 	    }
 	}
+}
 
-	def notifyStarted(String message) {
+def notifyStarted(String message) {
 		slackSend (
 			color: '#FFFF00',
 			message: "${message}: JOB '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})"
 		)
 	}
-
-
-}

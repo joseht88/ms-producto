@@ -13,7 +13,7 @@ pipeline {
 	    stage('Initiation Test') {
     	   steps {
 	   	        try {
-		        	sh "'${mvnHome}/bin/mvn' clean test'"
+		        	sh 'mvn clean test'
 			    } catch(e){
 			        notifyStarted("Error test unit")
 			        throw e

@@ -34,7 +34,7 @@ pipeline {
         
         stage('Analysis SonarQube') {
            steps {
-               	 sh 'mvn sonar:sonar -Dsonar.login=squ_3efe3bdf584ad2a8ef47e1e0ca6d169f77dff6bf -Dsonar.projectKey=sqape -Dsonar.projectName="SQAPE BackEnd" -Dsonar.host.url=http://192.168.18.9:9000'
+               	 sh 'mvn sonar:sonar -Dsonar.login=squ_3efe3bdf584ad2a8ef47e1e0ca6d169f77dff6bf -Dsonar.projectKey=sqape -Dsonar.projectName="SQAPE BackEnd" -Dsonar.host.url=http://172.19.231.56:9000'
                
            }
         }

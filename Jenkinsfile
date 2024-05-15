@@ -31,27 +31,19 @@ pipeline {
                 echo 'Code review done'
             }
         }
-        
+        //Revisa la calidad de código con SonarQube
         stage('Analysis SonarQube') {
            steps {
                	 sh 'mvn sonar:sonar -Dsonar.login=squ_3efe3bdf584ad2a8ef47e1e0ca6d169f77dff6bf -Dsonar.projectKey=sqape -Dsonar.projectName="SQAPE BackEnd" -Dsonar.host.url=http://172.19.231.56:9000'
-               
+               	 echo 'SonarQube Code review done'
            }
         }
     	//Empaqueta el proyecto y lo dejará en taget/project-1.0-SNAPSHOT.jar
     	stage('Build') {
 	       steps {
 			   sh 'mvn package -DskipTests'
-			   notifyStarted("Error package")
+			   echo 'Packaging project'
 			}
        	}
 	}
 }
-	
-
-//def notifyStarted(String message) {
-//		slackSend (
-//			color: '#a52019',
-//			message: "${message}: JOB '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})"
-//		)
-//	}

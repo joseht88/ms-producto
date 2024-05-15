@@ -4,9 +4,13 @@ pipeline {
 	    maven 'MAVEN'
 	}
 	stages {
-	    stage('Clonar el proyecto') {
+	    stage('Checkout from github') {
     	   steps {
-   	       	git branch: 'master', url: 'https://github.com/joseht88/ms-producto.git'
+   	       	git branch: 'master', 
+   	       	url: 'https://github.com/joseht88/ms-producto.git',
+   	       	notifyStarted("Checkout from github ----------------")
+   	       	echo 'Pulled from github successfully'
+   	       	
    	    	}
     	}
 	    

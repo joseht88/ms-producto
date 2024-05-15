@@ -4,21 +4,33 @@ pipeline {
 	    maven 'MAVEN'
 	}
 	stages {
-	    stage('Checkout from github') {
+	    stage('Preparation') {
     	   steps {
-   	      // 	git 'https://github.com/joseht88/ms-producto.git',
-   	      // 	notifyStarted("Checkout from github ----------------")
-   	       	echo 'Pulled from github successfully'
+   	      		git 'https://github.com/joseht88/ms-producto.git'
+   	       		echo 'Pulled from github successfully'
    	    	}
     	}
-	    
+    	
+	    stage('compile the code to executable format'){
+            steps{
+                sh 'mvn clean compile'
+                echo 'converted the code from human readable to machine readable '
+            }
+        }
+        
 	    stage('Initiation Test') {
     	   steps {
-	   	       
-		        	sh 'mvn clean test'
-			  echo 'Unit Test successfully'
+				sh 'mvn test'
+			  	echo 'Unit Test successfully'
    	    	}
     	}
+    	
+    	stage('code review to check quality of code'){
+            steps{
+                sh 'mvn pmd:pmd'
+                echo 'code review done'
+            }
+        }
     	
     	stage('Build') {
 	       steps {

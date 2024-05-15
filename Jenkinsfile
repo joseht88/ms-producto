@@ -10,31 +10,38 @@ pipeline {
    	       		echo 'Pulled from github successfully'
    	    	}
     	}
-    	
-	    stage('compile the code to executable format'){
+    	//Compila el codigo en formato ejecutable
+	    stage('Compile the code to executable format'){
             steps{
                 sh 'mvn clean compile'
-                echo 'converted the code from human readable to machine readable '
+                echo 'Convirtió el código legible por humanos a legible por máquina'
             }
         }
-        
-	    stage('Initiation Test') {
+        //compila los test y los ejecuta
+	    stage('Testing the code') {
     	   steps {
 				sh 'mvn test'
 			  	echo 'Unit Test successfully'
    	    	}
     	}
-    	
-    	stage('code review to check quality of code'){
+    	//Revisa la calidad de código
+    	stage('Code review to check quality of code'){
             steps{
                 sh 'mvn pmd:pmd'
-                echo 'code review done'
+                echo 'Code review done'
             }
         }
-    	
+        
+        stage('Analysis SonarQube') {
+           steps {
+               	 sh 'mvn sonar:sonar -Dsonar.login=squ_3efe3bdf584ad2a8ef47e1e0ca6d169f77dff6bf -Dsonar.projectKey=sqape -Dsonar.projectName="SQAPE BackEnd" -Dsonar.host.url=http://192.168.18.9:9000'
+               
+           }
+        }
+    	//Empaqueta el proyecto y lo dejará en taget/project-1.0-SNAPSHOT.jar
     	stage('Build') {
 	       steps {
-			   sh 'mvn clean package -DskipTests'
+			   sh 'mvn package -DskipTests'
 			   notifyStarted("Error package")
 			}
        	}
@@ -42,9 +49,9 @@ pipeline {
 }
 	
 
-def notifyStarted(String message) {
-		slackSend (
-			color: '#a52019',
-			message: "${message}: JOB '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})"
-		)
-	}
+//def notifyStarted(String message) {
+//		slackSend (
+//			color: '#a52019',
+//			message: "${message}: JOB '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})"
+//		)
+//	}

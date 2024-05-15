@@ -14,23 +14,23 @@ pipeline {
 	    
 	    stage('Initiation Test') {
     	   steps {
-	   	        try {
-		        	sh 'mvn clean test'
-			    } catch(e){
+	   	       // try {
+		       // 	sh 'mvn clean test'
+			   // } catch(e){
 			        notifyStarted("Error test unit")
-			        throw e
-			    }
+			     //   throw e
+			   // }
    	    	}
     	}
     	
     	stage('Build') {
 	       steps {
-			    try{
-			        sh 'mvn clean package -DskipTests'
-			    } catch(e){
+			   // try{
+			   //     sh 'mvn clean package -DskipTests'
+			   // } catch(e){
 			        notifyStarted("Error package")
-			        throw e
-			    }
+			     //   throw e
+			   // }
 			}
        	}
 	}

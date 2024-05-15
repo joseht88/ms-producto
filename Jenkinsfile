@@ -6,7 +6,7 @@ pipeline {
 	stages {
 	    stage('Checkout from github') {
     	   steps {
-   	       	git 'https://github.com/joseht88/ms-producto.git',
+   	      // 	git 'https://github.com/joseht88/ms-producto.git',
    	       	notifyStarted("Checkout from github ----------------")
    	       	echo 'Pulled from github successfully'
    	    	}

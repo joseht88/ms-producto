@@ -1,8 +1,8 @@
 node {
 	//agent any
-	tools {
-	    mvn 'MAVEN'
-	}
+	//tools {
+	//    mvn 'MAVEN'
+	//}
 	
 	stage('Clonar el proyecto'){
 		git branch: 'master', url: 'https://github.com/joseht88/ms-producto.git'            

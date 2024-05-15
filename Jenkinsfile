@@ -1,9 +1,8 @@
-pipeline {
-	agent any
+node {
+	//agent any
 	tools {
 	    mvn 'MAVEN'
 	}
-	stages {
 	
 	stage('Clonar el proyecto'){
 		git branch: 'master', url: 'https://github.com/joseht88/ms-producto.git'            
@@ -35,8 +34,8 @@ pipeline {
 	        throw e 
 	    }
 	}
-	}
 }
+
 
 def notifyStarted(String message) {
 		slackSend (

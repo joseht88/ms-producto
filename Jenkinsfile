@@ -5,12 +5,13 @@ node {
 	//}
 	
 	stage('Clonar el proyecto'){
-		git branch: 'master', url: 'https://github.com/joseht88/ms-producto.git'            
+		git branch: 'master', url: 'https://github.com/joseht88/ms-producto.git'
+		mvnHome = tool 'MAVEN'       
 	    }
 	    
 	stage('Ejecutar Test Unit'){
 	    try {
-	        sh 'mvn clean test'
+	        sh "'${mvnHome}/bin/mvn' clean test'"
 	    } catch(e){
 	        notifyStarted("Error test unit")
 	        throw e

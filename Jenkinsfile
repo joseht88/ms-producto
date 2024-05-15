@@ -13,14 +13,11 @@ pipeline {
     	}
 	    
 	    stage('Initiation Test') {
-    	  // steps {
-	   	        try {
+    	   steps {
+	   	       
 		        	sh 'mvn clean test'
-			    } catch(e){
-			        notifyStarted("Error test unit")
-			        throw e
-			    }
-   	    	//S}
+			  echo 'Unit Test successfully'
+   	    	}
     	}
     	
     	stage('Build') {

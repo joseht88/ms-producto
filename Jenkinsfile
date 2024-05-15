@@ -7,19 +7,19 @@ pipeline {
 	    stage('Checkout from github') {
     	   steps {
    	      // 	git 'https://github.com/joseht88/ms-producto.git',
-   	       	notifyStarted("Checkout from github ----------------")
+   	      // 	notifyStarted("Checkout from github ----------------")
    	       	echo 'Pulled from github successfully'
    	    	}
     	}
 	    
 	    stage('Initiation Test') {
     	   steps {
-	   	       // try {
-		       // 	sh 'mvn clean test'
-			   // } catch(e){
+	   	        try {
+		        	sh 'mvn clean test'
+			    } catch(e){
 			        notifyStarted("Error test unit")
-			     //   throw e
-			   // }
+			        throw e
+			    }
    	    	}
     	}
     	
@@ -39,7 +39,7 @@ pipeline {
 
 def notifyStarted(String message) {
 		slackSend (
-			color: '#FFFF00',
+			color: '#a52019',
 			message: "${message}: JOB '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})"
 		)
 	}

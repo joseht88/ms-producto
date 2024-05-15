@@ -1,47 +1,46 @@
-node {
-   def mvnHome
-   
-   stage('Preparation') {
-       git 'https://github.com/joseht88/ms-producto.git'
-       mvnHome = tool 'MAVEN'
-   }
-   
-   stage('Build') {
-       try {
-           sh "'${mvnHome}/bin/mvn' clean package -DskipTests"
-       }catch (e){
-           notifyStarted ("Build failed in Jenkins")
-           throw e
-       }
-   }
-   
-   stage('Results') {
-       try {
-           archive 'target/*.jar'
-       }catch (e){
-           notifyStarted ("packaging failed in Jenkins")
-           throw e
-       }
-   }
-   
-   stage('Deployment') {
-       try {
-			sh 'chown jenkins:jenkins /var/lib/jenkins/workspace/ms-producto/runDeployment.sh'
-			sh 'chmod +x /var/lib/jenkins/workspace/ms-producto/runDeployment.sh'
-            sh '/var/lib/jenkins/workspace/ms-producto/runDeployment.sh'
-       }catch (e){
-           notifyStarted ("Deployment failed in Jenkins")
-           throw e
-       }
-   }
-   
-   notifyStarted(" All is well ! Your code is tested, build, and deployed")
+pipeline {
+	agent any
+	tools {
+	    mvn 'MAVEN'
+	}
+	
+	stage('Clonar el proyecto'){
+		git branch: 'master', url: 'https://github.com/joseht88/ms-producto.git'            
+	    }
+	    
+	stage('Ejecutar Test Unit'){
+	    try {
+	        sh 'mvn clean test'
+	    } catch(e){
+	        notifyStarted("Error test unit")
+	        throw e
+	    }
+	}
+	
+	stage('Build') {
+	    try{
+	        sh 'mvn clean package -DskipTests'
+	    } catch(e){
+	        notifyStarted("Error package")
+	        throw e
+	    }
+	}
 
-}
+	stage('Result'){
+	    try {
+	    archive 'target/*.jar'
+	    } catch(e){
+	        notifyStarted("Error packaging failed in Jenkins")
+	        throw e 
+	    }
+	}
 
-def notifyStarted(String message){
-   slackSend (
-        color: '#FFFF00',
-        message:"${message}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})"
-   )
+	def notifyStarted(String message) {
+		slackSend (
+			color: '#FFFF00',
+			message: "${message}: JOB '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})"
+		)
+	}
+
+
 }

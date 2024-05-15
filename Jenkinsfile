@@ -3,6 +3,7 @@ pipeline {
 	tools {
 	    mvn 'MAVEN'
 	}
+	stages {
 	
 	stage('Clonar el proyecto'){
 		git branch: 'master', url: 'https://github.com/joseht88/ms-producto.git'            
@@ -33,6 +34,7 @@ pipeline {
 	        notifyStarted("Error packaging failed in Jenkins")
 	        throw e 
 	    }
+	}
 	}
 }
 

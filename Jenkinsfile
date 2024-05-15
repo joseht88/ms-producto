@@ -22,12 +22,8 @@ pipeline {
     	
     	stage('Build') {
 	       steps {
-			   // try{
-			   //     sh 'mvn clean package -DskipTests'
-			   // } catch(e){
-			        notifyStarted("Error package")
-			     //   throw e
-			   // }
+			   sh 'mvn clean package -DskipTests'
+			   notifyStarted("Error package")
 			}
        	}
 	}

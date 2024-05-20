@@ -62,7 +62,9 @@ public class ProductoController {
 	public ResponseEntity<Object> buscarById(@PathVariable(required = true) Long id){
 		try {
 			var producto = service.findById(id);
-			return ResponseEntity.status(HttpStatus.OK).body(producto.get());
+			if(producto.isPresent())
+				return ResponseEntity.status(HttpStatus.OK).body(producto.get());
+			return ResponseEntity.status(HttpStatus.OK).build();
 		} catch (Exception e) {
 			 return ResponseEntity.internalServerError().body(
 	                    MessageFormat.format("Exception while fetching book with id: {0}", id));

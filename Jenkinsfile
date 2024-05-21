@@ -45,5 +45,23 @@ pipeline {
 			   echo 'Packaging project'
 			}
        	}
+		
+		//stage('Install Postman CLI') {
+		//	steps {
+		//		sh 'curl -o- "https://dl-cli.pstmn.io/install/linux64.sh" | sh'
+		//	}
+		//}
+
+		stage('Postman CLI Login') {
+			steps {
+				sh 'postman login --with-api-key $POSTMAN_API_KEY'
+			}
+		}
+
+		stage('Running collection') {
+			steps {
+				sh 'postman collection run "9353983-8d7d5a24-1f67-4208-9695-9313f5c231a0"-e "9353983-e9145a7a-d1cf-4584-887b-2f9a1393e432"'
+			}
+		}
 	}
 }

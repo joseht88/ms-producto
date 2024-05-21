@@ -59,7 +59,7 @@ pipeline {
 		        POSTMAN_API_KEY_TOKEN = credentials('POSTMAN_API_KEY')
 		    }
 			steps {
-				sh "echo 'My token postman is $POSTMAN_API_KEY_TOKEN'"
+				//sh "echo 'My token postman is $POSTMAN_API_KEY_TOKEN'"
 				sh 'postman login --with-api-key $POSTMAN_API_KEY_TOKEN'
 			}
 		}

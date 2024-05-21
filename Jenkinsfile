@@ -3,6 +3,9 @@ pipeline {
 	tools {
 	    maven 'MAVEN'
 	}
+	environment {
+        POSTMAN_API_KEY = credentials("POSTMAN_API_KEY")
+    }
 	stages {
 	    stage('Preparation') {
     	   steps {

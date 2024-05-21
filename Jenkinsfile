@@ -52,15 +52,16 @@ pipeline {
 		stage('Install Postman CLI') {
 			steps {
 				//sh 'curl -o- "https://dl-cli.pstmn.io/install/linux64.sh" | sh'
-				sh '$POSTMAN_API_KEY'
-				sh 'newman -verion'
+				echo '$POSTMAN_API_KEY'
+				echo '${POSTMAN_API_KEY}'
+				sh 'newman -v'
 				
 			}
 		}
 
 		stage('Postman CLI Login') {
 			steps {
-				sh 'postman login --with-api-key $POSTMAN_API_KEY'
+				sh 'postman login --with-api-key ${POSTMAN_API_KEY}'
 			}
 		}
 

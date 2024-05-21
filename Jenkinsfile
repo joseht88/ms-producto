@@ -4,9 +4,7 @@ pipeline {
 	    maven 'MAVEN'
 	    nodejs 'NodeJS'
 	}
-	environment {
-        POSTMAN_API_KEY = credentials('POSTMAN_API_KEY')
-    }
+	
 	stages {
 	    stage('Preparation') {
     	   steps {
@@ -53,15 +51,16 @@ pipeline {
 		stage('Install Postman CLI') {
 			steps {
 				sh 'sudo curl -o- "https://dl-cli.pstmn.io/install/linux64.sh" | sh'
-				echo $POSTMAN_API_KEY
-				bat 'echo $POSTMAN_API_KEY'				
-				
 			}
 		}
 
 		stage('Postman CLI Login') {
+			environment {
+		        POSTMAN_API_KEY_TOKEN = credentials('POSTMAN_API_KEY')
+		    }
 			steps {
-				sh 'postman login --with-api-key "$POSTMAN_API_KEY"'
+				sh "echo 'My token postman is $POSTMAN_API_KEY_TOKEN'"
+				sh 'postman login --with-api-key $POSTMAN_API_KEY_TOKEN'
 			}
 		}
 

@@ -4,7 +4,7 @@ pipeline {
 	    maven 'MAVEN'
 	}
 	environment {
-        POSTMAN_API_KEY = credentials("POSTMAN_API_KEY")
+        POSTMAN_API_KEY = credentials('POSTMAN_API_KEY')
     }
 	stages {
 	    stage('Preparation') {
@@ -53,7 +53,7 @@ pipeline {
 			steps {
 				//sh 'curl -o- "https://dl-cli.pstmn.io/install/linux64.sh" | sh'
 				echo '$POSTMAN_API_KEY'
-				echo '${POSTMAN_API_KEY}'
+				bat 'echo %POSTMAN_API_KEY%'
 				sh 'newman -v'
 				
 			}

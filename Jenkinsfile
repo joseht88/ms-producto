@@ -1,7 +1,8 @@
 pipeline {
 	agent any
 	tools {
-	    maven 'MAVEN'
+	    maven 'MAVEN',
+	    nodejs 'NodeJS'
 	}
 	environment {
         POSTMAN_API_KEY = credentials('POSTMAN_API_KEY')

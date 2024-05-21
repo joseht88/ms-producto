@@ -54,7 +54,7 @@ pipeline {
 			steps {
 				sh 'sudo curl -o- "https://dl-cli.pstmn.io/install/linux64.sh" | sh'
 				echo '$POSTMAN_API_KEY'
-				echo ${POSTMAN_API_KEY}
+				echo '${POSTMAN_API_KEY}'
 				echo $POSTMAN_API_KEY
 				bat 'echo %POSTMAN_API_KEY%'				
 				

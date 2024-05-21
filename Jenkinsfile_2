@@ -47,6 +47,18 @@ pipeline {
 			   echo 'Packaging project'
 			}
        	}
+		
+		stage('Preparar Node') {
+			steps {
+				sh "echo npm -v"
+			}
+		}
 
+		stage('Postman API Tests') {
+			steps {
+				sh "newman run 'Mi coleccion.postman_collection.json'"
+			}
+		}
+		
 	}
 }
